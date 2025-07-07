@@ -53,13 +53,23 @@ class CameraManager {
             // Initialize WebXR AR
             if (window.WebXRARManager) {
                 this.webxrManager = new window.WebXRARManager();
-                trackEvent('webxr_initialized');
-            } else {
-                // Fallback to camera overlay
-                await this.requestCameraAccess();
-                this.setupQRScanner();
-                this.updateStatus('Camera ready. Point at BeReal billboard...');
+                
+                // Try to start AR experience
+                const arStarted = await this.webxrManager.startARExperience();
+                if (arStarted) {
+                    trackEvent('webxr_ar_started');
+                    this.updateStatus('AR mode active - Point camera at surfaces');
+                    return;
+                } else {
+                    // AR failed to start, fallback to camera
+                    console.log('AR failed to start, using camera fallback');
+                }
             }
+            
+            // Fallback to camera overlay
+            await this.requestCameraAccess();
+            this.setupQRScanner();
+            this.updateStatus('Camera ready. Point at BeReal billboard...');
         } catch (error) {
             console.error('WebXR initialization failed:', error);
             // Fallback to camera overlay
@@ -135,6 +145,11 @@ class CameraManager {
             data: result.data,
             detectionCount: this.detectionCount 
         });
+
+        // Notify WebXR manager if available
+        if (this.webxrManager && this.webxrManager.onQRCodeDetected) {
+            this.webxrManager.onQRCodeDetected();
+        }
 
         // Check if it's our reveal URL
         if (result.data.includes('/reveal') || result.data.includes('bereal')) {
@@ -362,6 +377,20 @@ window.manualTriggerReveal = () => {
         window.revealManager.startReveal();
     } else {
         console.error('Reveal manager not found');
+    }
+};
+
+window.startARExperience = async () => {
+    if (window.cameraManager && window.cameraManager.webxrManager) {
+        const success = await window.cameraManager.webxrManager.startARExperience();
+        if (success) {
+            console.log('AR experience started successfully');
+        } else {
+            console.log('Failed to start AR experience');
+        }
+    } else {
+        console.log('WebXR not available');
+        alert('WebXR AR is not supported on this device/browser');
     }
 };
 
