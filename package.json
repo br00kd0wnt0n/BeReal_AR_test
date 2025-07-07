@@ -5,10 +5,10 @@
   "main": "index.html",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && cp serve.json dist/",
     "preview": "vite preview --host 0.0.0.0 --port $PORT",
     "start": "npx serve dist -s -l $PORT",
-    "serve": "npx serve dist -s -l $PORT --no-clipboard",
+    "serve": "npx serve dist -s -l $PORT --no-clipboard --config dist/serve.json",
     "deploy": "npm run build && netlify deploy --prod --dir=dist"
   },
   "dependencies": {
