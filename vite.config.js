@@ -5,6 +5,16 @@ export default defineConfig({
     port: 3000,
     open: false
   },
+  preview: {
+    port: process.env.PORT || 3000,
+    host: '0.0.0.0',
+    allowedHosts: [
+      'localhost',
+      '127.0.0.1',
+      'healthcheck.railway.app',
+      'berealartest-production.up.railway.app'
+    ]
+  },
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
