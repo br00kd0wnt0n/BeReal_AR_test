@@ -144,16 +144,18 @@ class CameraManager {
     }
 
     startReveal() {
-        // Hide camera section
+        // Keep camera visible for AR effect
         const cameraSection = document.getElementById('cameraSection');
         if (cameraSection) {
-            cameraSection.style.display = 'none';
+            // Don't hide camera - keep it as background
+            cameraSection.style.zIndex = '1';
         }
 
-        // Show reveal section
+        // Show reveal section as overlay
         const revealSection = document.getElementById('revealSection');
         if (revealSection) {
             revealSection.classList.remove('hidden');
+            revealSection.style.zIndex = '10';
         }
 
         // Initialize reveal animation
