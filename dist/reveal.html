@@ -8,13 +8,16 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/assets/reveal-77966b0d.js"></script>
+  <script type="module" crossorigin src="/assets/reveal-64408d4d.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-3cfb730f.js">
   <link rel="modulepreload" crossorigin href="/assets/analytics-79f4c0be.js">
-  <link rel="stylesheet" href="/assets/reveal-94cfef38.css">
+  <link rel="stylesheet" href="/assets/reveal-3f725e8f.css">
 </head>
 <body>
     <div class="reveal-container">
+        <!-- AR Overlay for WebXR -->
+        <div id="ar-overlay"></div>
+        
         <!-- Camera View -->
         <div class="camera-section" id="cameraSection">
             <video id="cameraVideo" autoplay muted playsinline></video>
@@ -31,7 +34,11 @@
                 
                 <div class="scan-instructions">
                     <h3>Point camera at BeReal billboard</h3>
-                    <p>Hold steady to trigger reveal</p>
+                    <p>Scan QR code to reveal AR experience</p>
+                    <div class="ar-indicator">
+                        <span class="ar-icon">📱</span>
+                        <span>AR Mode Active</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -109,6 +116,7 @@
         </div>
     </div>
 
+    
     
     
     
