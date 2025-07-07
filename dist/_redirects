@@ -1,4 +1,2 @@
-# BeReal AR Billboard Redirects
-/admin    /admin.html   200
-/reveal   /reveal.html  200
-/*        /index.html   200 
+/reveal    /reveal.html   200
+/admin     /admin.html    200 

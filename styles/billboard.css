@@ -237,6 +237,14 @@ body {
     font-weight: 400;
 }
 
+.version-info {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.6rem;
+    font-weight: 300;
+    display: block;
+    margin-top: 2px;
+}
+
 /* Responsive testing controls */
 @media (max-width: 768px) {
     .testing-controls {
