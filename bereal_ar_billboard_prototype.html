@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeReal AR Billboard Prototype</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .billboard-container {
+            background: #000;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .billboard {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .billboard-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23ff6b6b;stop-opacity:1" /><stop offset="50%" style="stop-color:%23feca57;stop-opacity:1" /><stop offset="100%" style="stop-color:%2348dbfb;stop-opacity:1" /></linearGradient></defs><rect width="800" height="400" fill="url(%23bg)"/><circle cx="200" cy="150" r="40" fill="%23fff" opacity="0.8"/><circle cx="600" cy="250" r="60" fill="%23fff" opacity="0.6"/><rect x="350" y="180" width="100" height="40" rx="20" fill="%23fff" opacity="0.7"/></svg>') center/cover;
+            transition: filter 0.3s ease;
+        }
+
+        .billboard-content.blurred {
+            filter: blur(20px);
+        }
+
+        .billboard-content.revealing {
+            animation: progressiveReveal 3s ease-out forwards;
+        }
+
+        @keyframes progressiveReveal {
+            0% { filter: blur(20px); }
+            25% { filter: blur(15px); }
+            50% { filter: blur(10px); }
+            75% { filter: blur(5px); }
+            100% { filter: blur(0px); }
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .overlay h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 300;
+            max-width: 600px;
+            line-height: 1.2;
+        }
+
+        .overlay p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .qr-code {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #333;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .qr-code:hover {
+            transform: scale(1.05);
+        }
+
+        .scan-button {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(255,107,107,0.3);
+        }
+
+        .scan-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(255,107,107,0.4);
+        }
+
+        .controls {
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .control-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-1px);
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            color: white;
+            text-align: center;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .reveal-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, transparent 30%, rgba(255,255,255,0.1) 70%, rgba(255,255,255,0.3) 100%);
+            opacity: 0;
+            animation: revealWave 3s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes revealWave {
+            0% { 
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1.2);
+            }
+            100% { 
+                opacity: 0;
+                transform: scale(2);
+            }
+        }
+
+        .final-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400"><defs><linearGradient id="authentic" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23ff9a9e;stop-opacity:1" /><stop offset="100%" style="stop-color:%23fecfef;stop-opacity:1" /></linearGradient></defs><rect width="800" height="400" fill="url(%23authentic)"/><text x="400" y="200" text-anchor="middle" dominant-baseline="central" font-family="Arial" font-size="48" fill="%23333">✨ Authentic Moment ✨</text><text x="400" y="250" text-anchor="middle" dominant-baseline="central" font-family="Arial" font-size="20" fill="%23666">Real friendship, unfiltered</text></svg>') center/cover;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .final-content.visible {
+            opacity: 1;
+        }
+
+        .cta-overlay {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .cta-overlay.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .bereal-btn {
+            background: linear-gradient(135deg, #000, #333);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .bereal-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .billboard-container {
+                padding: 20px;
+            }
+            
+            .billboard {
+                height: 300px;
+            }
+            
+            .overlay h2 {
+                font-size: 1.8rem;
+            }
+            
+            .qr-code {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="billboard-container">
+        <div class="billboard">
+            <div class="billboard-content blurred" id="billboardContent"></div>
+            
+            <div class="overlay" id="overlay">
+                <h2>Some moments can only be seen clearly when you're ready to be real</h2>
+                <p>Scan to reveal authentic reality</p>
+                <div class="qr-code">📱 QR CODE</div>
+                <button class="scan-button" onclick="simulateQRScan()">
+                    Scan QR Code
+                </button>
+            </div>
+
+            <div class="final-content" id="finalContent"></div>
+            
+            <div class="cta-overlay" id="ctaOverlay">
+                <h3>Now capture your own clear moment</h3>
+                <p>Take your first authentic BeReal</p>
+                <button class="bereal-btn" onclick="simulateBeReal()">Open BeReal Camera</button>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn" onclick="resetDemo()">Reset Demo</button>
+            <button class="control-btn" onclick="skipToReveal()">Skip to Reveal</button>
+            <button class="control-btn" onclick="changeContent()">Change Content</button>
+        </div>
+
+        <div class="status" id="status">
+            Ready to experience authentic reality...
+        </div>
+    </div>
+
+    <script>
+        let currentState = 'initial';
+        let contentIndex = 0;
+
+        const contents = [
+            {
+                background: 'linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb)',
+                title: '✨ Authentic Moment ✨',
+                subtitle: 'Real friendship, unfiltered'
+            },
+            {
+                background: 'linear-gradient(135deg, #a8edea, #fed6e3)',
+                title: '💝 Genuine Connection',
+                subtitle: 'Study stress, shared together'
+            },
+            {
+                background: 'linear-gradient(135deg, #d299c2, #fef9d7)',
+                title: '🌅 Morning Reality',
+                subtitle: 'Bedhead and coffee, beautifully real'
+            }
+        ];
+
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+
+        function simulateQRScan() {
+            if (currentState !== 'initial') return;
+            
+            currentState = 'scanning';
+            updateStatus('QR Code scanned! Opening BeReal app...');
+            
+            setTimeout(() => {
+                updateStatus('App opened. Point your camera at the billboard...');
+                setTimeout(startReveal, 1500);
+            }, 1000);
+        }
+
+        function startReveal() {
+            if (currentState !== 'scanning') return;
+            
+            currentState = 'revealing';
+            updateStatus('Billboard detected! Revealing authentic moment...');
+            
+            const billboardContent = document.getElementById('billboardContent');
+            const overlay = document.getElementById('overlay');
+            const finalContent = document.getElementById('finalContent');
+            
+            // Hide overlay
+            overlay.classList.add('hidden');
+            
+            // Start reveal animation
+            billboardContent.classList.remove('blurred');
+            billboardContent.classList.add('revealing');
+            
+            // Add reveal wave effect
+            const revealWave = document.createElement('div');
+            revealWave.className = 'reveal-progress';
+            billboardContent.appendChild(revealWave);
+            
+            // Show final content after animation
+            setTimeout(() => {
+                finalContent.classList.add('visible');
+                showCTA();
+            }, 2000);
+            
+            // Remove wave effect
+            setTimeout(() => {
+                revealWave.remove();
+            }, 3000);
+        }
+
+        function showCTA() {
+            currentState = 'revealed';
+            updateStatus('Moment revealed! Ready to capture your own authentic reality?');
+            
+            const ctaOverlay = document.getElementById('ctaOverlay');
+            setTimeout(() => {
+                ctaOverlay.classList.add('visible');
+            }, 500);
+        }
+
+        function simulateBeReal() {
+            updateStatus('BeReal camera opened! Take your first authentic dual-camera photo...');
+            setTimeout(() => {
+                updateStatus('First BeReal captured! Welcome to authentic social connection. 📸');
+            }, 2000);
+        }
+
+        function resetDemo() {
+            currentState = 'initial';
+            updateStatus('Ready to experience authentic reality...');
+            
+            const billboardContent = document.getElementById('billboardContent');
+            const overlay = document.getElementById('overlay');
+            const finalContent = document.getElementById('finalContent');
+            const ctaOverlay = document.getElementById('ctaOverlay');
+            
+            // Reset all states
+            billboardContent.className = 'billboard-content blurred';
+            overlay.classList.remove('hidden');
+            finalContent.classList.remove('visible');
+            ctaOverlay.classList.remove('visible');
+            
+            // Remove any wave effects
+            const waves = billboardContent.querySelectorAll('.reveal-progress');
+            waves.forEach(wave => wave.remove());
+        }
+
+        function skipToReveal() {
+            if (currentState === 'initial') {
+                simulateQRScan();
+                setTimeout(startReveal, 500);
+            }
+        }
+
+        function changeContent() {
+            contentIndex = (contentIndex + 1) % contents.length;
+            const content = contents[contentIndex];
+            
+            const finalContent = document.getElementById('finalContent');
+            finalContent.style.background = `${content.background}`;
+            finalContent.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; color: #333;">
+                    <div style="font-size: 3rem; margin-bottom: 20px;">${content.title}</div>
+                    <div style="font-size: 1.5rem; opacity: 0.8;">${content.subtitle}</div>
+                </div>
+            `;
+            
+            updateStatus(`Content changed to: ${content.subtitle}`);
+        }
+
+        // Initialize
+        changeContent();
+        resetDemo();
+    </script>
+</body>
+</html>

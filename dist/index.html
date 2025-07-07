@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeReal - Reveal Reality Billboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/assets/main-f4348428.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-3cfb730f.js">
+  <link rel="modulepreload" crossorigin href="/assets/analytics-79f4c0be.js">
+  <link rel="stylesheet" href="/assets/index-9f97be0d.css">
+</head>
+<body>
+    <div class="billboard-container">
+        <div class="billboard">
+            <div class="billboard-content blurred" id="billboardContent">
+                <div class="authentic-moment" id="authenticMoment">
+                    <!-- Dynamic content will be loaded here -->
+                </div>
+            </div>
+            
+            <div class="overlay" id="overlay">
+                <div class="brand-logo">
+                    <h1>BeReal</h1>
+                </div>
+                
+                <div class="main-message">
+                    <h2>Some moments can only be seen clearly when you're ready to be real</h2>
+                    <p>Scan to reveal authentic reality</p>
+                </div>
+
+                <div class="qr-section">
+                    <div class="qr-code-container">
+                        <div id="qrCode" class="qr-code"></div>
+                        <div class="qr-label">Scan with your camera</div>
+                    </div>
+                    
+                    <div class="scan-instructions">
+                        <div class="instruction-step">
+                            <span class="step-number">1</span>
+                            <span>Open your camera app</span>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="step-number">2</span>
+                            <span>Point at this QR code</span>
+                        </div>
+                        <div class="instruction-step">
+                            <span class="step-number">3</span>
+                            <span>Experience the reveal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-controls">
+                    <button class="demo-btn" onclick="window.location.href='/reveal'">
+                        Try Demo Experience
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-controls">
+            <button class="control-btn" onclick="changeContent()">
+                <span>🔄</span> Change Content
+            </button>
+            <button class="control-btn" onclick="refreshQR()">
+                <span>📱</span> Refresh QR
+            </button>
+        </div>
+
+        <div class="status-bar" id="statusBar">
+            <div class="status-content">
+                <span class="status-icon">📱</span>
+                <span class="status-text">Ready to experience authentic reality...</span>
+            </div>
+        </div>
+    </div>
+
+    
+    
+</body>
+</html> 

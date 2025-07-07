@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeReal - Reveal Reality</title>
+    <link rel="stylesheet" href="./styles/billboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="billboard-container">
+        <!-- Main Content Area -->
+        <div class="content-area" id="contentArea">
+            <div class="authentic-moment" id="authenticMoment">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+        
+        <!-- QR Code in Bottom Left -->
+        <div class="qr-corner">
+            <div class="qr-code-container">
+                <div id="qrCode" class="qr-code"></div>
+                <div class="qr-label">Scan to reveal</div>
+            </div>
+        </div>
+
+        <!-- Logo in Bottom Right -->
+        <div class="logo-corner">
+            <div class="logo-container">
+                <img src="./Logo-BeReal.png" alt="BeReal" class="logo">
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./scripts/qr-generator.js"></script>
+    <script type="module" src="./scripts/billboard.js"></script>
+</body>
+</html> 

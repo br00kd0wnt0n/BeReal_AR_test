@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeReal - Reveal Experience</title>
+    <link rel="stylesheet" href="./styles/reveal.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="reveal-container">
+        <!-- Camera View -->
+        <div class="camera-section" id="cameraSection">
+            <video id="cameraVideo" autoplay muted playsinline></video>
+            <canvas id="cameraCanvas" style="display: none;"></canvas>
+            
+            <div class="camera-overlay">
+                <div class="scan-frame">
+                    <div class="corner top-left"></div>
+                    <div class="corner top-right"></div>
+                    <div class="corner bottom-left"></div>
+                    <div class="corner bottom-right"></div>
+                    <div class="scan-line"></div>
+                </div>
+                
+                <div class="scan-instructions">
+                    <h3>Point camera at BeReal billboard</h3>
+                    <p>Hold steady to trigger reveal</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reveal Experience -->
+        <div class="reveal-section hidden" id="revealSection">
+            <div class="reveal-content" id="revealContent">
+                <div class="authentic-moment-reveal" id="authenticMomentReveal">
+                    <!-- Revealed content will appear here -->
+                </div>
+                
+                <div class="reveal-effects">
+                    <div class="clarity-wave" id="clarityWave"></div>
+                    <div class="particle-system" id="particleSystem"></div>
+                </div>
+            </div>
+            
+            <div class="cta-overlay" id="ctaOverlay">
+                <div class="cta-content">
+                    <h2>Now capture your own clear moment</h2>
+                    <p>Take your first authentic BeReal</p>
+                    <button class="bereal-btn" onclick="openBeReal()">
+                        <span class="btn-icon">📸</span>
+                        Open BeReal Camera
+                    </button>
+                    <button class="secondary-btn" onclick="window.location.href='/'">
+                        Back to Billboard
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Screen -->
+        <div class="loading-screen" id="loadingScreen">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <h3>Preparing your reveal experience...</h3>
+                <p>Please allow camera access when prompted</p>
+            </div>
+        </div>
+
+        <!-- Error Screen -->
+        <div class="error-screen hidden" id="errorScreen">
+            <div class="error-content">
+                <div class="error-icon">⚠️</div>
+                <h3>Camera Access Required</h3>
+                <p>This experience needs camera access to work properly.</p>
+                <button class="retry-btn" onclick="initializeCamera()">Try Again</button>
+                <button class="demo-btn" onclick="startDemoMode()">Try Demo Mode</button>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button class="control-btn" onclick="window.location.href='/'">
+                <span>🏠</span> Back to Billboard
+            </button>
+            <button class="control-btn" onclick="resetExperience()">
+                <span>🔄</span> Reset
+            </button>
+            <button class="control-btn" onclick="toggleCamera()">
+                <span>📷</span> Toggle Camera
+            </button>
+            <button class="control-btn" onclick="manualTriggerReveal()" style="background: linear-gradient(135deg, #ff6b6b, #feca57);">
+                <span>✨</span> Test Reveal
+            </button>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar" id="statusBar">
+            <div class="status-content">
+                <span class="status-icon">📱</span>
+                <span class="status-text">Initializing camera...</span>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./scripts/camera.js"></script>
+    <script type="module" src="./scripts/reveal.js"></script>
+    <script type="module" src="./scripts/analytics.js"></script>
+</body>
+</html> 

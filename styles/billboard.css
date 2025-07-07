@@ -1,0 +1,187 @@
+/* Simplified Billboard Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #000;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.billboard-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Main Content Area */
+.content-area {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb);
+    filter: blur(25px) brightness(0.7);
+    transition: filter 0.5s ease;
+}
+
+.authentic-moment {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    padding: 40px;
+}
+
+/* QR Code Corner */
+.qr-corner {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    z-index: 10;
+}
+
+.qr-code-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.qr-code {
+    width: 120px;
+    height: 120px;
+    background: white;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.qr-code:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+
+.qr-label {
+    font-size: 0.9rem;
+    color: white;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Logo Corner */
+.logo-corner {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    z-index: 10;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo {
+    width: 160px !important;
+    height: 160px !important;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    max-width: none !important;
+    max-height: none !important;
+    min-width: 160px !important;
+    min-height: 160px !important;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+}
+
+.logo-label {
+    font-size: 0.9rem;
+    color: white;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .authentic-moment {
+        font-size: 2rem;
+        padding: 20px;
+    }
+    
+    .qr-code {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .qr-corner {
+        bottom: 20px;
+        left: 20px;
+    }
+    
+    .logo {
+        width: 140px;
+        height: 140px;
+    }
+    
+    .logo-corner {
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .authentic-moment {
+        font-size: 1.5rem;
+        padding: 15px;
+    }
+    
+    .qr-code {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .qr-corner {
+        bottom: 15px;
+        left: 15px;
+    }
+    
+    .qr-label {
+        font-size: 0.8rem;
+    }
+    
+    .logo {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .logo-corner {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .logo-label {
+        font-size: 0.8rem;
+    }
+} 
