@@ -21,6 +21,13 @@ class CameraManager {
             // Hide loading screen first
             this.hideLoadingScreen();
             
+            // Check for WebXR support first
+            if (navigator.xr && await navigator.xr.isSessionSupported('immersive-ar')) {
+                this.updateStatus('WebXR AR detected. Starting true AR experience...');
+                this.initializeWebXR();
+                return;
+            }
+            
             // On desktop, start demo mode automatically
             if (this.isDesktop) {
                 this.updateStatus('Desktop detected. Starting demo mode...');
@@ -38,6 +45,27 @@ class CameraManager {
             console.error('Camera initialization failed:', error);
             this.showError();
             trackEvent('camera_error', { error: error.message });
+        }
+    }
+
+    async initializeWebXR() {
+        try {
+            // Initialize WebXR AR
+            if (window.WebXRARManager) {
+                this.webxrManager = new window.WebXRARManager();
+                trackEvent('webxr_initialized');
+            } else {
+                // Fallback to camera overlay
+                await this.requestCameraAccess();
+                this.setupQRScanner();
+                this.updateStatus('Camera ready. Point at BeReal billboard...');
+            }
+        } catch (error) {
+            console.error('WebXR initialization failed:', error);
+            // Fallback to camera overlay
+            await this.requestCameraAccess();
+            this.setupQRScanner();
+            this.updateStatus('Camera ready. Point at BeReal billboard...');
         }
     }
 

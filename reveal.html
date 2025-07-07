@@ -11,6 +11,9 @@
 </head>
 <body>
     <div class="reveal-container">
+        <!-- AR Overlay for WebXR -->
+        <div id="ar-overlay"></div>
+        
         <!-- Camera View -->
         <div class="camera-section" id="cameraSection">
             <video id="cameraVideo" autoplay muted playsinline></video>
@@ -111,6 +114,7 @@
 
     <script type="module" src="./scripts/camera.js"></script>
     <script type="module" src="./scripts/reveal.js"></script>
+    <script type="module" src="./scripts/webxr-ar.js"></script>
     <script type="module" src="./scripts/analytics.js"></script>
 </body>
 </html> 
