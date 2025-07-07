@@ -79,6 +79,48 @@ class BillboardManager {
                 window.location.href = '/reveal.html';
             });
         }
+
+        // Testing buttons
+        this.setupTestingButtons();
+    }
+
+    setupTestingButtons() {
+        const testButtons = document.querySelectorAll('.test-btn');
+        
+        testButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const contentId = parseInt(e.target.dataset.content);
+                this.switchToContent(contentId);
+                
+                // Update active button state
+                testButtons.forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                trackEvent('test_content_switched', { contentId });
+            });
+        });
+
+        // Set initial active button
+        const currentContentId = this.authenticMoments[this.currentContentIndex].id;
+        const activeButton = document.querySelector(`[data-content="${currentContentId}"]`);
+        if (activeButton) {
+            activeButton.classList.add('active');
+        }
+    }
+
+    switchToContent(contentId) {
+        const index = this.authenticMoments.findIndex(moment => moment.id === contentId);
+        if (index >= 0) {
+            this.currentContentIndex = index;
+            this.updateBillboardContent();
+            
+            // Update URL without page reload
+            const url = new URL(window.location);
+            url.searchParams.set('content', contentId);
+            window.history.pushState({}, '', url);
+            
+            console.log(`Switched to content ${contentId}: ${this.authenticMoments[index].title}`);
+        }
     }
 
     updateBillboardContent() {

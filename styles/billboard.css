@@ -184,4 +184,96 @@ body {
     .logo-label {
         font-size: 0.8rem;
     }
+}
+
+/* Testing Controls - Minimal Styling */
+.testing-controls {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 20;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 8px;
+    padding: 12px;
+    backdrop-filter: blur(10px);
+}
+
+.test-buttons {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.test-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.test-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.test-btn.active {
+    background: rgba(255, 107, 107, 0.8);
+    border-color: rgba(255, 107, 107, 1);
+}
+
+.test-info {
+    text-align: center;
+}
+
+.test-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.7rem;
+    font-weight: 400;
+}
+
+/* Responsive testing controls */
+@media (max-width: 768px) {
+    .testing-controls {
+        top: 15px;
+        left: 15px;
+        padding: 10px;
+    }
+    
+    .test-buttons {
+        gap: 6px;
+        margin-bottom: 6px;
+    }
+    
+    .test-btn {
+        padding: 5px 10px;
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .testing-controls {
+        top: 10px;
+        left: 10px;
+        padding: 8px;
+    }
+    
+    .test-buttons {
+        gap: 4px;
+        margin-bottom: 4px;
+    }
+    
+    .test-btn {
+        padding: 4px 8px;
+        font-size: 0.65rem;
+    }
+    
+    .test-label {
+        font-size: 0.65rem;
+    }
 } 
