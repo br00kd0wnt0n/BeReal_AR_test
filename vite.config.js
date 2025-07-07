@@ -25,7 +25,8 @@ export default defineConfig({
         reveal: 'reveal.html',
         admin: 'admin.html'
       }
-    }
+    },
+    copyPublicDir: true
   },
   publicDir: 'public',
   optimizeDeps: {
